@@ -2,7 +2,7 @@
 
 int main()
 {
-	static const int infinity = std::numeric_limits<int>::max();
+	int infinity = std::numeric_limits<int>::max();
 	static const int dimension = 6;
 	int matrix[dimension][dimension] =
 	{
@@ -16,4 +16,7 @@ int main()
 
 	Graph graph = Graph(dimension);
 	graph.dijkstraAlg(matrix, 0);
+	graph.printTable();
+
+	//std::cout << infinity << std::endl;
 }

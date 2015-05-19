@@ -4,22 +4,24 @@ void Graph::initializeCell()
 {
 	for (int i = 0; i < dimension; i++)
 	{
-		table[i] = Cell();
+		table.push_back(Cell());
 	}
 }
 
 bool Graph::checkExpanded()
 {
+	bool isFalse = false;
 	for (int i = 0; i < dimension; i++)
 	{
 		if (table[i].getisExpanded() != true)
-			return true;
-		else
-			return false;
+		{
+			isFalse = true;
+		}
 	}
+	return isFalse;
 }
 
-int Graph::getSmallestVal(int(&matrix)[6][6], int row)
+int Graph::getSmallestVal(const int (&matrix)[6][6], int row)
 {
 	int column;
 	int min = maxValue;
@@ -34,7 +36,7 @@ int Graph::getSmallestVal(int(&matrix)[6][6], int row)
 	return column;
 }
 
-void Graph::dijkstraAlg(int(&matrix)[6][6], int startPt)
+void Graph::dijkstraAlg(const int (&matrix)[6][6], int startPt)
 {
 	int min = maxValue;
 	int row = startPt;
@@ -43,9 +45,10 @@ void Graph::dijkstraAlg(int(&matrix)[6][6], int startPt)
 	table[row].setCost(0);
 	table[row].setisExpanded();
 	table[row].setParent(-1);
-
+	std::cout << checkExpanded() << std::endl;
 	while (checkExpanded())
 	{
+		//std::cout << checkExpanded() << std::endl;
 		for (int x = 0; x < dimension; x++)
 		{
 			if (matrix[row][x] != 0)
@@ -53,8 +56,20 @@ void Graph::dijkstraAlg(int(&matrix)[6][6], int startPt)
 				if ((matrix[row][x] + table[row].getCost()) < table[x].getCost())
 				{
 					table[x].setCost(matrix[row][x] + table[row].getCost());
+					table[x].setParent(row);
 				}
 			}
 		}
+		if (table[row].getisExpanded() == false)
+			table[row].setisExpanded();
+		row = getSmallestVal(matrix, row);
+	}
+}
+
+void Graph::printTable()
+{
+	for (int i = 0; i < dimension; i++)
+	{
+		std::cout << "Vertex: " << i << " Expanded: " << table[i].getisExpanded() << " Cost: " << table[i].getCost() << std::endl;
 	}
 }

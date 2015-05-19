@@ -2,6 +2,7 @@
 #define DIJKSTRA_H
 #include <iostream>
 #include <limits>
+#include <vector>
 #include "Cell.h"
 
 class Graph
@@ -13,19 +14,18 @@ public:
 		maxValue = std::numeric_limits<int>::max();
 	}
 
-	void dijkstraAlg(int(&matrix)[6][6], int startPt);
-	void parentTable();
-	void setEdges(int x, int y);
+	void dijkstraAlg(const int(&matrix)[6][6], int startPt);
+	void printTable();
 
 private:
 	int maxValue;
 	int dimension;
 	int **graph = new int*[dimension];
-	Cell *table = new Cell[dimension];
+	std::vector<Cell> table;
 
 	void initializeCell();
 	bool checkExpanded();
-	int getSmallestVal(int(&matrix)[6][6], int row);
+	int getSmallestVal(const int (&matrix)[6][6], int row);
 };
 
 #endif
