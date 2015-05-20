@@ -27,35 +27,71 @@ bool Graph::checkExpanded()
 
 int Graph::getSmallestVal(const int (&matrix)[6][6], int row)
 {
-	/*int column;
+	int min = maxValue;
+	int column = NULL;
 	for (int i = 0; i < dimension; i++)
 	{
-		if (matrix[row][i] < min)
+		if (matrix[row][i] < min && table[i].getisExpanded() == false)
 		{
 			min = matrix[row][i];
 			column = i;
 		}
 	}
-	return column;*/
-	return 0;
+	return column;
+}
+
+int Graph::getSmallestVal(int **&matrix, int row)
+{
+	int min = maxValue;
+	int column = NULL;
+	for (int i = 0; i < dimension; i++)
+	{
+		if (matrix[row][i] < min && table[i].getisExpanded() == false)
+		{
+			min = matrix[row][i];
+			column = i;
+		}
+	}
+	return column;
 }
 
 void Graph::dijkstraAlg(const int (&matrix)[6][6], int startPt)
 {
 	int row = startPt;
 	int sum;
-	int column;
 	table[row].setCost(0);
 	table[row].setParent(-1);
-	while (checkExpanded())
+	while (checkExpanded()) //will always be true if the table has a "false"
 	{
 		for (int i = 0; i < dimension; i++)
 		{
 			sum = matrix[row][i] + table[row].getCost();
-			if (matrix[row][i] != 0 && sum < table[i].getCost() && table[i].getisExpanded() != true)
+			//only takes into account if the index of the matrix is not 0 or Infinity and if the vertex is not expanded
+			if (matrix[row][i] != 0 && sum < table[i].getCost() && matrix[row][i] != maxValue && table[i].getisExpanded() != true)
 			{
 				table[i].setCost(sum);
-				std::cout << sum << std::endl;
+			}
+		}
+		table[row].setisExpanded();
+		row = getSmallestVal(matrix, row);
+	}
+}
+
+void Graph::dijkstraAlg(int **&matrix, int startPt)
+{
+	int row = startPt;
+	int sum;
+	table[row].setCost(0);
+	table[row].setParent(-1);
+	while (checkExpanded()) //will always be true if the table has a "false"
+	{
+		for (int i = 0; i < dimension; i++)
+		{
+			sum = matrix[row][i] + table[row].getCost();
+			//only takes into account if the index of the matrix is not 0 or Infinity and if the vertex is not expanded
+			if (matrix[row][i] != 0 && sum < table[i].getCost() && matrix[row][i] != maxValue && table[i].getisExpanded() != true)
+			{
+				table[i].setCost(sum);
 			}
 		}
 		table[row].setisExpanded();
