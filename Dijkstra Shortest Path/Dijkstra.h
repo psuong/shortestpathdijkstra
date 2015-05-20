@@ -11,16 +11,14 @@ public:
 	Graph(int dimension)
 	{
 		this->dimension = dimension;
-		maxValue = std::numeric_limits<int>::max();
+		initializeCell();
 	}
 
 	void dijkstraAlg(const int(&matrix)[6][6], int startPt);
 	void printTable();
 
 private:
-	int maxValue;
 	int dimension;
-	int **graph = new int*[dimension];
 	std::vector<Cell> table;
 
 	void initializeCell();

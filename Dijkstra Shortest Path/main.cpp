@@ -14,7 +14,9 @@ int main()
 		{ 14, infinity, 2, infinity, 9, 0 }
 	};
 
+
 	Graph graph = Graph(dimension);
+	//graph.printTable();
 	graph.dijkstraAlg(matrix, 0);
 	graph.printTable();
 
